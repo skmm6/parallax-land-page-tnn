@@ -1,12 +1,22 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   content: ["./index.html", "./main.js"],
   theme: {
     extend: {
+      screens: {
+        xs: '425px',
+      },
       colors: {
         bkg: "#171819",
         muted: "#c9cBcf",
         accent: "#66ccc1",
+      },
+      dropShadow: {
+        "text-sm": "1px 1px 0px rgba(0, 0, 0, 0.90)",
+        "text-md": "1px 2px 0px rgba(0, 0, 0, 0.90)",
+        "text-lg": "1px 4px 0px rgba(0, 0, 0, 0.90)",
       },
       container: {
         center: true,
@@ -34,5 +44,20 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(( {addUtilities, theme} ) => {
+      addUtilities({
+        ".fade-up": {
+          transition:
+            "transform 1s cubic-bezier(0.64, 0.04, 0.26, 0.87), opacity 0.8s cubic-bezier(0.64, 0.04, 0.26, 0.87)",
+          opacity: theme("opacity.0"),
+          transform: "translate3d(0, 2rem, 0)",
+        },
+        ".faded": {
+          opacity: theme("opacity.100"),
+          transform: "translate3d(0, 0, 0)",
+        },
+      })
+    })
+  ],
 }
